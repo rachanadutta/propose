@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Propose Day!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap');
+        body { font-family: 'Quicksand', sans-serif; }
+        .handwritten { font-family: 'Dancing Script', cursive; }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-pink-50 text-gray-800 overflow-x-hidden">
+
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div class="floating text-6-xl mb-4">💝</div>
+        <h1 class="text-4xl font-bold text-pink-600 mb-2">Happy Propose Day!</h1>
+        <p class="text-lg italic">To my favorite person...</p>
+        <div class="mt-10 animate-bounce">
+            <p class="text-sm text-pink-400">Scroll down</p>
+            <span>↓</span>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex flex-col items-center justify-center p-8 bg-white shadow-inner">
+        <h2 class="text-2xl font-semibold mb-6 handwritten text-3xl">Why I'd choose you again:</h2>
+        <ul class="space-y-4 text-left">
+            <li class="flex items-center gap-3">✨ <span>You're the best debugger for my bad moods.</span></li>
+            <li class="flex items-center gap-3">🍕 <span>You are very caring.</span></li>
+            <li class="flex items-center gap-3">🔒 <span>How safe I feel when I'm with you.</span></li>
+        </ul>
+    </section>
+
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <h2 class="text-3xl font-bold mb-8">Subject: Relationship Extension</h2>
+        <p class="mb-10 text-gray-600">I know we're already "us," but I just wanted to officially renew my 1-year subscription to being your girl. <br><br> <strong>Will you keep being mine?</strong></p>
+        
+        <div class="flex flex-col w-full max-w-xs gap-4">
+            <button onclick="celebrate()" class="bg-pink-500 text-white py-4 rounded-full font-bold shadow-lg transform active:scale-95 transition">
+                YES, ALWAYS!
+            </button>
+            <button id="noBtn" onmouseover="moveButton()" class="border-2 border-pink-200 text-pink-300 py-4 rounded-full font-bold transition">
+                No
+            </button>
+        </div>
+    </section>
+
+    <script>
+        function moveButton() {
+    const btn = document.getElementById('noBtn');
+    
+    // Maintain a safe margin so it doesn't hit the very edge
+    const padding = 20; 
+    const maxWidth = window.innerWidth - btn.offsetWidth - padding;
+    const maxHeight = window.innerHeight - btn.offsetHeight - padding;
+
+    const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
+    const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+
+    btn.style.position = 'fixed';
+    btn.style.left = randomX + 'px';
+    btn.style.top = randomY + 'px';
+    btn.style.zIndex = '1000';
+}
+
+function celebrate() {
+    // 1. Fire the Confetti!
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
+
+    // 2. Show the Sweet Message
+    // Wrapping in a setTimeout so the confetti starts first
+    setTimeout(() => {
+        alert("Yay! ❤️ Subscription successfully renewed. Best decision ever!");
+    }, 500);
+}
+    </script>
+</body>
+</html>
